@@ -5,7 +5,7 @@ package pl.edu.pwsztar;
 // TODO: (prosze jedynie trzymac sie dokumentacji zawartej w interfejsie BankOperation)
 class Bank implements BankOperation {
 
-    private static int accountNumber = 0;
+    private int accountNumber = 0;
 
     public int createAccount() {
         return ++accountNumber;
