@@ -5,14 +5,27 @@ package pl.edu.pwsztar;
 // TODO: (prosze jedynie trzymac sie dokumentacji zawartej w interfejsie BankOperation)
 class Bank implements BankOperation {
 
-    private int accountNumber = 0;
+    private final AccountStorage accountStorage;
+    private int accountNumber = 1;
+
+    public Bank(){
+        this.accountStorage = AccountStorage.getInstance();
+    }
 
     public int createAccount() {
-        return ++accountNumber;
+        Account account = new Account(accountNumber);
+        accountStorage.append(account);
+        accountNumber++;
+        return account.getAccountNumber();
     }
 
     public int deleteAccount(int accountNumber) {
-        return 0;
+        if ( accountStorage.contains(accountNumber) ){
+            int accountBalance = accountStorage.getAccount(accountNumber).getAccountBalance();
+            accountStorage.remove(accountNumber);
+            return accountBalance;
+        }
+        return -1;
     }
 
     public boolean deposit(int accountNumber, int amount) {
