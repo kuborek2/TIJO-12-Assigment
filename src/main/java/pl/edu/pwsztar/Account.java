@@ -11,7 +11,7 @@ public class Account {
     }
 
     public int getAccountNumber(){
-        return accountNumber;
+        return this.accountNumber;
     }
 
     public void setAccountNumber(int accountNumber) {
@@ -19,7 +19,7 @@ public class Account {
     }
 
     public int getAccountBalance(){
-        return accountBalance;
+        return this.accountBalance;
     }
 
     public void setAccountBalance(int accountBalance) {

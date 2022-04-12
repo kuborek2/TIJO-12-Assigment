@@ -3,6 +3,9 @@ package pl.edu.pwsztar
 import spock.lang.Specification
 import spock.lang.Unroll
 
+/**
+ * https://tomaszgadek.com
+ */
 class CreateAccountSpec extends Specification {
 
     static BankOperation bank;

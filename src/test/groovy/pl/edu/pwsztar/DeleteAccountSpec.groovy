@@ -1,74 +1,33 @@
 package pl.edu.pwsztar
 
 import spock.lang.Specification
-import spock.lang.Unroll
 
+/**
+ * https://tomaszgadek.com
+ */
 class DeleteAccountSpec extends Specification {
 
-    static BankOperation bank;
+    def static bank
 
     def setupSpec() {
-        bank = new Bank();
+        bank = new Bank()
     }
 
-    @Unroll
-    def "should delete account #user and return #accountBalance"() {
+    def "should check delete account"() {
 
-        given: "the acount is being created"
-            bank.createAccount()
+        given:
+            def deletedAccounts = []
 
-        when: "the account is deleted"
-            def accountBalance = bank.deleteAccount(accountNumber);
+            def firstAccount = bank.createAccount()
+            def secondAccount = bank.createAccount()
 
-        then: "check account balance"
-            accountBalance == 0
-
-        where:
-        user   | accountNumber
-        'John' | 1
-        'Tom'  | 2
-        'Mike' | 3
-        'Todd' | 4
+        when:
+            deletedAccounts.add(bank.deleteAccount(firstAccount))
+            deletedAccounts.add(bank.deleteAccount(secondAccount))
+            deletedAccounts.add(bank.deleteAccount(-1000000))
+            deletedAccounts.add(bank.deleteAccount(firstAccount))
+            deletedAccounts.add(bank.deleteAccount(secondAccount))
+        then:
+            deletedAccounts == [0, 0, Bank.ACCOUNT_NOT_EXISTS, Bank.ACCOUNT_NOT_EXISTS, Bank.ACCOUNT_NOT_EXISTS]
     }
-
-    @Unroll
-    def "should delete account #user and return -1"() {
-
-        when: "the account is deleted"
-            def accountBalance = bank.deleteAccount(fakeAccountNumber);
-
-        then: "check account balance"
-            accountBalance == Bank.ACCOUNT_NOT_EXISTS
-
-        where:
-        user   | accountNumber  | fakeAccountNumber
-        'John' | 1              | 0
-        'Tom'  | 2              | -1
-        'Mike' | 3              | 4
-        'Todd' | 4              | 8
-    }
-
-    @Unroll
-    def "should delete account #user and return account Balance"() {
-
-        given: "create account and deposit money"
-            bank.createAccount()
-            bank.deposit(accountNumber, 100) >> true
-
-        when: "the account is deleted"
-            def accountBalance = bank.deleteAccount(accountNumber);
-
-        then: "check account balance"
-            accountBalance == 100
-
-        where:
-        user   | accountNumber
-        'John' | 1
-        'Tom'  | 2
-        'Mike' | 3
-        'Todd' | 4
-    }
-
-
-
 }
